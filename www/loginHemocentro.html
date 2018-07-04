@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+         <!-- Required meta tags-->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black">
+        <meta name="format-detection" content="telephone=no">
+        <meta name="msapplication-tap-highlight" content="no">
+
+        <title>DoeFy</title>
+
+        <link rel="stylesheet" href="lib/framework7/css/framework7.ios.min.css">
+        <link rel="stylesheet" href="lib/framework7/css/framework7.ios.colors.min.css">
+
+        <link rel="stylesheet" href="css/styles.css">
+
+
+        <script src="https://www.gstatic.com/firebasejs/4.8.1/firebase.js"></script>
+
+
+        <script src="https://www.gstatic.com/firebasejs/5.0.1/firebase.js"></script>
+        <link rel="stylesheet" type="text/css" href="css/style.css">
+        <script type="text/javascript" src="cordova.js"></script>
+
+        <script>
+          // Initialize Firebase
+          var config = {
+            apiKey: "AIzaSyBYDbtUQYpG5fp5CjGFfy93g4dYfvzdano",
+            authDomain: "doefyteste.firebaseapp.com",
+            databaseURL: "https://doefyteste.firebaseio.com",
+            projectId: "doefyteste",
+            storageBucket: "",
+            messagingSenderId: "879796181995"
+          };
+          firebase.initializeApp(config);
+          firebase.auth().signOut();
+
+firebase.auth().onAuthStateChanged(function (user) {
+    if (user) {
+        // User is signed in.
+
+          window.location.href = "hemocentrohome.html";
+
+        //document.getElementById("user_div").style.display = "initial";
+      //  document.getElementById("login_div").style.display = "none";
+
+        var user = firebase.auth().currentUser;
+
+        if (user != null) {
+
+            var email_id = user.email;
+
+            var email_verified = user.emailVerified;
+
+
+
+        }
+
+    } else {
+      /// window.alert("nop nop");
+
+    }
+});
+
+
+function login() {
+
+    var userEmail = document.getElementById("email").value;
+    var userPass = document.getElementById("senha").value;
+
+    firebase.auth().signInWithEmailAndPassword(userEmail, userPass).catch(function (error) {
+        // Handle Errors here.
+        var errorCode = error.code;
+        var errorMessage = error.message;
+
+        window.alert("Error : " + errorMessage);
+
+        // ...
+    });
+
+
+}
+        </script>
+
+    </head>
+
+  <body>
+
+<!-- Page, data-page contains page name-->
+<div class="page" data-name="loginHemocentro">
+            <div style="background: #4caf50; height: 40px;">
+              
+            </div>
+            <!-- Scrollable page content-->
+<div class="list-block">
+
+           
+
+<div class="titulo">faça login</div>
+
+<div class="list no-hairlines-md" style="margin-top: 10px">
+  <ul>
+   
+   
+    <li class="item-content item-input">
+      <div class="item-inner">
+        <div class="item-input-wrap">
+          <input type="email" placeholder="E-mail" id="email">
+          <span class="input-clear-button"></span>
+        </div>
+      </div>
+    </li>
+     <li class="item-content item-input">
+      <div class="item-inner">
+        <div class="item-input-wrap">
+          <input type="password" placeholder="Senha"  id="senha">
+          <span class="input-clear-button"></span>
+        </div>
+      </div>
+    </li>
+  </ul>
+ <div style="margin-top: 20px">
+      <button style="width: 250px; height: 50px; display: block; margin-top: 80px;margin: 0 auto;" id="btnEntrar" class="col button  button-round color-green" onclick="login()" >Entrar</button>
+      
+</div>
+</div>
+
+</div>
+
+
+</div>
+
+   
+    
+</div>
+    <!-- REFERENCE SCRIPTS-->
+    <script type="text/javascript" src="assets/js/framework7.min.js"></script>
+    <script type="text/javascript" src="assets/js/main.js"></script>
+  </body>
+</html>

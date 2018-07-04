@@ -1,0 +1,37 @@
+{
+  "prepare_queue": {
+    "installed": [],
+    "uninstalled": []
+  },
+  "config_munge": {
+    "files": {}
+  },
+  "installed_plugins": {
+    "cordova-plugin-console": {
+      "PACKAGE_NAME": "br.ufes.llcostalonga.mobile"
+    },
+    "cordova-plugin-statusbar": {
+      "PACKAGE_NAME": "br.ufes.llcostalonga.mobile"
+    },
+    "cordova-plugin-whitelist": {
+      "PACKAGE_NAME": "br.ufes.llcostalonga.mobile"
+    },
+    "phonegap-plugin-local-notification": {
+      "PACKAGE_NAME": "br.ufes.llcostalonga.mobile"
+    },
+    "cordova-plugin-local-notification": {
+      "PACKAGE_NAME": "br.ufes.llcostalonga.mobile"
+    },
+    "phonegap-plugin-push": {
+      "PACKAGE_NAME": "br.ufes.llcostalonga.mobile"
+    }
+  },
+  "dependent_plugins": {
+    "cordova-plugin-device": {
+      "PACKAGE_NAME": "br.ufes.llcostalonga.mobile"
+    },
+    "cordova-plugin-badge": {
+      "PACKAGE_NAME": "br.ufes.llcostalonga.mobile"
+    }
+  }
+}

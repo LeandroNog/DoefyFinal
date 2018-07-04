@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+         <!-- Required meta tags-->
+        <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, target-densitydpi=medium-dpi, user-scalable=0" />
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black">
+        <meta name="format-detection" content="telephone=no">
+        <meta name="msapplication-tap-highlight" content="no">
+
+        <title>DoeFy</title>
+
+        <link rel="stylesheet" href="lib/framework7/css/framework7.ios.min.css">
+        <link rel="stylesheet" href="lib/framework7/css/framework7.ios.colors.min.css">
+
+        <link rel="stylesheet" href="css/styles.css">
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBGJr_TBUSP1GIvZ9_10KKIZioM4Y_RrIY"></script>
+
+        <script src="https://www.gstatic.com/firebasejs/4.8.1/firebase.js"></script>
+<link rel="stylesheet" href="iconfont/material-icons.css">
+
+
+        <script src="https://www.gstatic.com/firebasejs/5.0.1/firebase.js"></script>
+        <link rel="stylesheet" type="text/css" href="css/style.css">
+        <script type="text/javascript" src="cordova.js"></script>
+        <link rel="stylesheet" href="css/framework7-icons.css">
+
+
+
+        <script>
+          // Initialize Firebase
+          var config = {
+            apiKey: "AIzaSyBYDbtUQYpG5fp5CjGFfy93g4dYfvzdano",
+            authDomain: "doefyteste.firebaseapp.com",
+            databaseURL: "https://doefyteste.firebaseio.com",
+            projectId: "doefyteste",
+            storageBucket: "",
+            messagingSenderId: "879796181995"
+          };
+          firebase.initializeApp(config);
+          var database = firebase.database();
+
+            var db;
+            window.onload = function()
+            {
+                
+            }
+ 
+
+var userGlob;
+          firebase.auth().onAuthStateChanged(function (user) {
+
+                          if (user) {
+                              // User is signed in.
+                              //document.getElementById("user_div").style.display = "initial";
+                            //  document.getElementById("login_div").style.display = "none";
+
+                              userGlob = firebase.auth().currentUser;
+
+                              if (user != null) {
+
+                                  var email_id = user.email;
+                                  //alert(email_id)
+
+                                  var email_verified = user.emailVerified;
+
+
+                              }
+
+                          } else {
+                             // alert("poi")
+                              //window.location.href = "index.html";
+
+                          }
+                      });
+
+ var database = firebase.database();
+  var out = "";
+
+function writeData() {
+       
+              var uid = firebase.database().ref().child('notificacoesGlob').push().key;    
+              
+              firebase.database().ref('notificacoesGlob/' + uid).set({
+                  nome: document.getElementById('titulo').value,
+                  descri: document.getElementById('descricao').value,
+              });
+             
+              alert("Alerta enviado")
+              document.getElementById('titulo').value = ""
+              document.getElementById('descricao').value = ""
+    } 
+
+
+     function writeDataDoacao() {
+       
+              var uid = firebase.database().ref().child('doacoes').push().key;    
+              
+              
+              firebase.database().ref('doacoes/' + uid).set({
+                  nome: document.getElementById('nomeDoacao').value,
+                  codigo: document.getElementById('codigoDoacao').value,
+                  observacao: document.getElementById('observacaoDoacao').value,
+              });
+
+              alert("Doação registrada!");
+              window.location.href = "hemocentrohome.html";
+
+
+
+    }
+
+</script>
+
+
+    </head>
+
+  <body class="theme-green">
+<div style="background: #4caf50; height: 40px;">
+              
+            </div>
+        
+<div class="views ">
+    <!-- Bottom Toolbar-->
+        <div class="toolbar tabbar-labels tabbar" style="margin-bottom: 40px">
+          <div class="toolbar-inner">
+            <a href="#tab-1" class="tab-link active icon-only">
+              <span class="material-icons" style="font-size:36px;">&#xe003;</span>
+            </a>
+             <a href="#tab-2" class="tab-link icon-only">
+              <span class="material-icons" style="font-size:36px;">&#xe89c;</span>
+            </a>
+             
+          </div>
+        </div>
+    <div class="view view-main" >
+
+          <div data-name="home" class="page" style="word-wrap: break-word">
+              <div class="tabs" style="word-wrap: break-word">
+                              <div class="page-content tab tab-active active" id="tab-1" class="list-block" style="word-wrap: break-word">
+                              <div class="titulo">Enviar alerta</div>
+
+                         <div class="list-block">
+                              <ul>
+                                <li class="item-content item-input">
+                                    <div class="item-inner">
+                                      <div class="item-input-wrap">
+                                        <input type="text" placeholder="Título" id="titulo">
+                                        <span class="input-clear-button"></span>
+                                      </div>
+                                    </div>
+                                  </li>
+                                                    <li class="item-content item-input">
+                                    <div class="item-inner">
+                                      <div class="item-input-wrap">
+                                        <input type="text" placeholder="Mensagem" id="descricao">
+                                        <span class="input-clear-button"></span>
+                                      </div>
+                                    </div>
+                                  </li>
+                               </ul>
+                          </div>
+             <button onclick="writeData()" style="width: 250px; height: 50px; display: block; margin-top: 80px;margin: 0 auto;" id="btnEnviar" class="col button  button-round color-green" >Enviar</button>
+                      </div>
+
+                <div class="page-content tab" id="tab-2">
+                  <div class="block">
+                    
+                        <div style=background:#800000 data-role="header">
+                                     <h1></h1>
+                                </div> <!-- header -->
+
+                                 <div class="titulo">Registrar doação</div>
+
+                         <div class="list-block">
+                              <ul>
+                                <li class="item-content item-input">
+                                    <div class="item-inner">
+                                      <div class="item-input-wrap">
+                                        <input type="text" placeholder="Nome do doador" id="nomeDoacao">
+                                        <span class="input-clear-button"></span>
+                                      </div>
+                                    </div>
+                                  </li>
+                                   <li class="item-content item-input">
+                                    <div class="item-inner">
+                                      <div class="item-input-wrap">
+                                        <input type="text" placeholder="Codigo da doação" id="codigoDoacao">
+                                        <span class="input-clear-button"></span>
+                                      </div>
+                                    </div>
+                                  </li>
+                                  <li class="item-content item-input">
+                                    <div class="item-inner">
+                                      <div class="item-input-wrap">
+                                        <input type="text" placeholder="Observação" id="observacaoDoacao">
+                                        <span class="input-clear-button"></span>
+                                      </div>
+                                    </div>
+                                  </li>
+                               </ul>
+                          </div>
+ <button onclick="writeDataDoacao()" style="width: 250px; height: 50px; display: block; margin-top: 80px;margin: 0 auto;" id="btnRegistrarDoacao" class="col button  button-round color-green" >Registrar</button>
+
+                  </div>
+                </div>
+              </div>
+
+              
+                </div>
+                
+              </div>
+          </div>
+    </div>
+
+
+
+<script type="text/javascript" src="cordova.js"></script>
+<script type="text/javascript" src="lib/framework7/js/framework7.min.js"></script>
+<script type="text/javascript" src="js/my-app.js"></script>
+  </body>
+</html>

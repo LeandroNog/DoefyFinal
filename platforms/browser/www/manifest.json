@@ -1,0 +1,11 @@
+{
+  "background_color": "#FFF",
+  "display": "standalone",
+  "name": "FW7_Firebase",
+  "short_name": "FW7_Firebase",
+  "version": "br.ufes.llcostalonga.mobile",
+  "description": "A basic Framework7 template for PhoneGap.",
+  "author": "Apache Cordova Team",
+  "icons": [],
+  "start_url": "index.html"
+}

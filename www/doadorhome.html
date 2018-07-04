@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+         <!-- Required meta tags-->
+        <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, target-densitydpi=medium-dpi, user-scalable=0" />
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black">
+        <meta name="format-detection" content="telephone=no">
+        <meta name="msapplication-tap-highlight" content="no">
+
+        <title>DoeFy</title>
+<script> var exports = {}; </script>
+
+        <link rel="stylesheet" href="lib/framework7/css/framework7.ios.min.css">
+        <link rel="stylesheet" href="lib/framework7/css/framework7.ios.colors.min.css">
+
+        <link rel="stylesheet" href="css/styles.css">
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBGJr_TBUSP1GIvZ9_10KKIZioM4Y_RrIY"></script>
+
+        <script src="https://www.gstatic.com/firebasejs/4.8.1/firebase.js"></script>
+<link rel="stylesheet" href="iconfont/material-icons.css">
+
+
+        <script src="https://www.gstatic.com/firebasejs/5.0.1/firebase.js"></script>
+        <link rel="stylesheet" type="text/css" href="css/style.css">
+        <script type="text/javascript" src="cordova.js"></script>
+        <link rel="stylesheet" href="css/framework7-icons.css">
+<script src="https://www.gstatic.com/firebasejs/3.6.1/firebase.js"></script>
+
+
+
+        <script>
+          // Initialize Firebase
+          var config = {
+            apiKey: "AIzaSyBYDbtUQYpG5fp5CjGFfy93g4dYfvzdano",
+            authDomain: "doefyteste.firebaseapp.com",
+            databaseURL: "https://doefyteste.firebaseio.com",
+            projectId: "doefyteste",
+            storageBucket: "",
+            messagingSenderId: "879796181995"
+          };
+          firebase.initializeApp(config);
+          var database = firebase.database();
+
+            var db;
+            window.onload = function()
+            {
+                loadNotificacoes();
+                init();
+
+
+
+            }
+ 
+
+var userGlob;
+          firebase.auth().onAuthStateChanged(function (user) {
+
+                          if (user) {
+
+                              // User is signed in.
+                              //document.getElementById("user_div").style.display = "initial";
+                            //  document.getElementById("login_div").style.display = "none";
+
+                             
+
+                              if (user != null) {
+
+                                  var email_id = user.email;
+                                  //alert(email_id)
+
+                                  var email_verified = user.emailVerified;
+                                  userGlob = firebase.auth().currentUser;
+                                  getDataUser();
+
+                              }
+
+                          } else {
+                             alert("nao logado")
+                              //window.location.href = "index.html";
+
+                          }
+                      });
+
+            var database = firebase.database();
+          
+
+var i = 0;
+
+
+
+function loadNotificacoes() {
+          var databaseRef = firebase.database().ref('notificacoesGlob/');
+
+          out = "";
+          //databaseRef.once('value', function(snapshot) {
+          databaseRef.on('value', function(snapshot) {
+              
+              //showLoading();
+              i++;
+              out = "";
+              var j = 0;
+              snapshot.forEach(function(childSnapshot) {
+                  
+                  var childKey = childSnapshot.key;
+                  var childData = childSnapshot.val();
+                  //alert(childSnapshot.val())
+                  if(i>1&&j>0){
+                   myApp.addNotification({
+                            title: childData.nome ,
+                            message: childData.descri,
+                            media: '<i class="icon icon-f7"></i>',
+                            hold: 5000
+                        });
+                  }
+                  j++
+            
+                out+= "<li class=\"item-content\"><div class=\"item-media\"><i style=\"font-size:36px;\" class=\"material-icons color-yellow\">&#xe88e;</i></div><div class=\"item-inner\"><div class=\"item-title\"><h3>" + childData.nome + "</h3><pre style=\"font-family: Arial, Helvetica, sans-serif;\">" + childData.descri + "</pre></div></div></div></li>"
+
+
+                  //out += "<div data-role=\"collapsible\"> ;
+
+              });
+
+              document.getElementById('noti').innerHTML = out;
+              //$("#noti").html(out).enhanceWithin();      
+
+             // $('#listviewNotificacoes').listview('refresh');
+              //$.mobile.loading("hide");
+              
+          },function(error) {
+               console.error(error);
+              });
+
+
+    }
+
+
+ function init()
+         {
+             getLocation();
+
+         }
+
+        
+       
+         function getLocation()
+         {
+          options = { maximumAge: 3000, timeout: 5000, enableHighAccuracy:true };
+
+            navigator.geolocation.getCurrentPosition(success, failure, options);
+         }
+
+         function success(position)
+         {
+         var lat = position.coords.latitude;
+
+         var long = position.coords.longitude;
+            
+             
+        var latlng = new google.maps.LatLng(lat, long);
+
+        var mapOptions = {
+                center: {
+                    lat: lat,
+                    lng: long
+                },
+                mapTypeControl: true,
+                mapTypeControlOptions: {
+                    style: google.maps.MapTypeControlStyle.DEFAULT ,
+                    mapTypeIds: ['roadmap', 'satellite','hybrid']
+                },
+                zoomControl: true,
+                zoomControlOptions: {
+                    position: google.maps.ControlPosition.LEFT_CENTER
+                },
+                scaleControl: true,
+                streetViewControl: true,
+                streetViewControlOptions: {
+                    position: google.maps.ControlPosition.LEFT_TOP
+                },
+                fullscreenControl: true,
+                zoom: 15
+            };
+        map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+
+
+            var myLatLng = {
+                lat: lat,
+                lng: long
+            };
+
+            var marker = new google.maps.Marker({
+                position: myLatLng,
+                map: map,
+                title: "Você"
+            });
+
+            marker.setIcon('https://www.google.com/mapfiles/marker_green.png');
+
+            myLatLng = {
+                lat: -18.727074,
+                lng: -39.836673
+            };
+
+            var marker1 = new google.maps.Marker({
+                position: myLatLng,
+                map: map,
+                title: "HEMOES - SÃO MATEUS"
+            });
+
+
+
+            myLatLng = {
+                lat: -19.536268, 
+                lng: -40.632026
+            };
+
+            var marker2 = new google.maps.Marker({
+                position: myLatLng,
+                map: map,
+                title: "Hemocentro de Colatina"
+            });
+
+            myLatLng = {
+                lat: -20.298727,
+                lng: -40.318817
+            };
+
+            var marker3 = new google.maps.Marker({
+                position: myLatLng,
+                map: map,
+                title: "HEMOES - VITÓRIA"
+            });
+
+            myLatLng = {
+                lat: -19.397539, 
+                lng: -40.070668
+            };
+
+            var marker4 = new google.maps.Marker({
+                position: myLatLng,
+                map: map,
+                title: "Unidade de coleta e transfusão de sangue"
+            });
+
+
+         }
+
+
+      
+
+         function failure(message)
+         {
+            alert("Err or:" + message.message);
+         }
+
+ function getDataUser(){
+          /*var usersRef = firebase.database().ref('users/');
+          userRef = usersRef.child(userGlob.uid);
+          userRef.on("value", userSnapshot => {
+          //var name = userSnapshot.val().name;
+          //var email = userSnapshot.val().email;
+         // var sexo = userSnapshot.val().sexo;
+
+          document.getElementById("nomeDoador").value = "name"
+          document.getElementById("emailDoador").value = "email";
+          
+
+          //alert(prop1)
+              },function(error) {
+             console.error(error);
+             alert("erro"+error);
+            });*/
+    }
+    function updateDados(){
+      try{
+        firebase.database().ref().child('/users/' + userGlob.uid)
+          .set({ name: document.getElementById("nomeDoador").value
+            , email: userGlob.email});
+            alert("Atualizado!")
+            window.location.href = "doadorhome.html";
+      }catch(err){
+          alert(error)
+      }
+      }
+
+
+</script>
+
+
+    </head>
+
+  <body class="theme-green">
+<div style="background: #4caf50; height: 40px;">
+              
+            </div>
+        
+<div class="views ">
+    <!-- Bottom Toolbar-->
+        <div class="toolbar tabbar-labels tabbar" style="margin-bottom: 40px">
+          <div class="toolbar-inner">
+            <a href="#tab-1" class="tab-link active icon-only">
+              <span class="material-icons" style="font-size:36px;">&#xe7f4;</span>
+            </a>
+             <a href="#tab-2" class="tab-link icon-only">
+              <span class="material-icons" style="font-size:36px;">&#xe55b;</span>
+            </a>
+             <a href="#tab-3" class="tab-link icon-only">
+              <span class="material-icons" style="font-size:36px;">&#xe7fd;</span>
+            </a>
+          </div>
+        </div>
+    <div class="view view-main" >
+
+          <div data-name="home" class="page" style="word-wrap: break-word">
+              <div class="tabs" style="word-wrap: break-word">
+                <div class="page"></div>
+                    <div class="page-content tab tab-active active" id="tab-1" class="list-block" style="word-wrap: break-word">
+                  
+
+                 <div class="list-block" style="margin: 0px">
+                      <ul>
+                       <div style="background: #4caf50; height: 1px;" ></div>
+
+                       <li class="list-group-title" id="noti"></li>
+                          
+                      </ul>
+                    </div>     
+
+                </div>
+                <div class="page-content tab" id="tab-2">
+                  <div class="block">
+                    
+                        <div style=background:#800000 data-role="header">
+                                     <h1></h1>
+                                </div> <!-- header -->
+                                <div id="map-canvas" style="width:100%; height:600px;" ></div>
+
+                      </div>
+                </div>
+                <div class="page-content tab" id="tab-3">
+                  
+            <!-- Scrollable page content-->
+<div class="list-block">
+
+                        
+              <div class="list no-hairlines-md" style="margin-top: 10px">
+                <ul>
+                  <li class="item-content item-input">
+                    <div class="item-inner">
+                      <div class="item-input-wrap">
+                        <input type="text" placeholder="Nome completo" id="nomeDoador">
+                        <span class="input-clear-button"></span>
+                      </div>
+                    </div>
+                  </li>
+                   
+                   
+                 
+                  <li class="item-content item-input">
+                    <div class="item-inner">
+                      <div class="item-input-wrap">
+                        <input type="email" placeholder="E-mail" id="emailDoador" disabled>
+                        <span class="input-clear-button"></span>
+                      </div>
+                    </div>
+                  </li>
+                   
+                </ul>
+               <div style="margin-top: 20px">
+                    <button style="width: 250px; height: 50px; display: block; margin-top: 80px;margin: 0 auto;" id="btnAtualizarDados" class="col button  button-round color-green "  onclick="updateDados()">Salvar</button>
+                     
+              </div>
+              </div>
+
+</div>
+
+
+</div>
+                </div>
+                
+              </div>
+          </div>
+    </div>
+
+
+
+<script type="text/javascript" src="cordova.js"></script>
+<script type="text/javascript" src="lib/framework7/js/framework7.min.js"></script>
+<script type="text/javascript" src="js/my-app.js"></script>
+<script type="text/javascript" src="js/notification.js"></script>
+  </body>
+</html>
